@@ -12,11 +12,11 @@ defmodule PhoenixCommanderWeb.FileBrowserLive do
     <div phx-keydown="key" phx-target="window" class="phoenix_commander">
       <pre>&#x2554;&#x2550;<%= @commander.panel_1.path |> top_line(@commander.active_panel == :panel_1) |> raw() %>&#x2550;&#x2557;&#x2554;&#x2550;<%= @commander.panel_2.path |> top_line(@commander.active_panel == :panel_2) |> raw() %>&#x2550;&#x2557;</pre>
       <pre>&#x2551;<%= headers() |> raw %><% headers() |> raw() %>&#x2551;&#x2551;<%= headers() |> raw %><% headers() |> raw() %>&#x2551;</pre>
-      <%= for row <- 0..21 do %>
+      <%= for row <- 0..19 do %>
         <pre>&#x2551;<%= raw line(:panel_1, @commander.panel_1, row, @commander.active_panel) %>&#x2551;&#x2551;<%= raw line(:panel_2, @commander.panel_2, row, @commander.active_panel) %>&#x2551;</pre>
       <% end %>
-      <pre>&#x2551;<%= separator() |> raw %><% headers() |> raw() %>&#x2551;&#x2551;<%= headers() |> raw %><% separator() |> raw() %>&#x2551;</pre>
-      <pre>&#x2551;<%= headers() |> raw %><% headers() |> raw() %>&#x2551;&#x2551;<%= headers() |> raw %><% headers() |> raw() %>&#x2551;</pre>
+      <pre>&#x255F;<%= separator() |> raw %><% separator() |> raw() %>&#x2562;&#x255F;<%= separator() |> raw() %><% separator() |> raw() %>&#x2562;</pre>
+      <pre>&#x2551;<%= @commander.panel_1 |> status() |> raw() %>&#x2551;&#x2551;<%= @commander.panel_2 |> status() |> raw() %>&#x2551;</pre>
       <pre>&#x255A;<%= bottom_line() |> raw() %>&#x255D;&#x255A;<%= bottom_line() |> raw() %>&#x255D;</pre>
     </div>
     """
@@ -42,18 +42,10 @@ defmodule PhoenixCommanderWeb.FileBrowserLive do
     cd = dir_entry |> elem(0)
     name = cd |> String.slice(0, @name_length)
 
-    size =
-      case dir_entry |> elem(1) do
-        :empty -> ""
-        :up -> ">UP--DIR<"
-        :dir -> ">SUB-DIR<"
-        val -> Number.SI.number_to_si(val, precision: 0)
-      end
-
     entry =
       name <>
         String.duplicate(" ", @name_length - String.length(name)) <>
-        "&#x2502;" <> String.pad_leading(size, 9)
+        "&#x2502;" <> String.pad_leading(size(elem(dir_entry, 1)), 9)
 
     class = if no == active && panel.offset + row == panel.selection, do: "selected", else: ""
 
@@ -61,7 +53,19 @@ defmodule PhoenixCommanderWeb.FileBrowserLive do
   end
 
   def separator() do
-    String.duplicate("&#x2550;", 38)
+    String.duplicate("&#x2500;", @name_length) <>
+      "&#x2534;" <>
+      String.duplicate("&#x2500;", 9)
+  end
+
+  def status(panel) do
+    {name, size} = Enum.at(panel.content, panel.selection)
+
+    name = name |> String.slice(0, @name_length)
+
+    name <>
+      String.duplicate(" ", @name_length - String.length(name)) <>
+      " " <> String.pad_leading(size(size), 9)
   end
 
   def bottom_line() do
@@ -136,6 +140,11 @@ defmodule PhoenixCommanderWeb.FileBrowserLive do
     # IO.inspect(data)
     {:noreply, socket}
   end
+
+  defp size(:empty), do: ""
+  defp size(:up), do: ">UP--DIR<"
+  defp size(:dir), do: ">SUB-DIR<"
+  defp size(val), do: Number.SI.number_to_si(val, precision: 0)
 
   defp get_commander(socket) do
     socket.assigns.commander

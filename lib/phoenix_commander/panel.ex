@@ -3,7 +3,7 @@ defmodule PhoenixCommander.Panel do
             offset: 0,
             selection: 0,
             content: PhoenixCommander.Dir.ls(Path.expand(".")),
-            content_length: 21
+            content_length: 19
 
   def change_directory(panel, new_directory) do
     new_path = PhoenixCommander.Dir.path(panel.path, new_directory)
