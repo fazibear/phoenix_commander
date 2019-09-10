@@ -9,7 +9,7 @@ defmodule PhoenixCommander.Application do
     # List all child processes to be supervised
     children = [
       # Start the endpoint when the application starts
-      PhoenixCommanderWeb.Endpoint,
+      PhoenixCommanderWeb.Endpoint
       # Starts a worker by calling: PhoenixCommander.Worker.start_link(arg)
       # {PhoenixCommander.Worker, arg},
       #    {WebengineKiosk, {[homepage: "http://localhost:41234", fullscreen: false], name: MyKiosk}}

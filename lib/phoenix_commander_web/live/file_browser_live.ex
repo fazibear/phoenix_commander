@@ -53,36 +53,36 @@ defmodule PhoenixCommanderWeb.FileBrowserLive do
 
   def handle_event("quit", _param, socket) do
     System.halt(0)
-    
+
     {:noreply, socket}
   end
 
   def handle_event("cd", %{"panel" => "1", "cd" => cd}, socket) do
-          panel_1 = socket.assigns.panel_1
+    panel_1 = socket.assigns.panel_1
 
-          panel_1 =
-            panel_1
-            |> Map.put(:path, path(panel_1.path, cd))
-            |> ls()
+    panel_1 =
+      panel_1
+      |> Map.put(:path, path(panel_1.path, cd))
+      |> ls()
 
-            socket = socket
-            |> assign(panel_1: panel_1)
-
+    socket =
+      socket
+      |> assign(panel_1: panel_1)
 
     {:noreply, socket}
   end
-  
+
   def handle_event("cd", %{"panel" => "2", "cd" => cd}, socket) do
-          panel_2 = socket.assigns.panel_2
+    panel_2 = socket.assigns.panel_2
 
-          panel_2 =
-            panel_2
-            |> Map.put(:path, path(panel_2.path, cd))
-            |> ls()
+    panel_2 =
+      panel_2
+      |> Map.put(:path, path(panel_2.path, cd))
+      |> ls()
 
-            socket = socket
-            |> assign(panel_2: panel_2)
-
+    socket =
+      socket
+      |> assign(panel_2: panel_2)
 
     {:noreply, socket}
   end
