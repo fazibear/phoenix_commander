@@ -8,10 +8,14 @@ defmodule PhoenixCommander.Panel do
   def change_directory(panel, new_directory) do
     case PhoenixCommander.Dir.new_path(panel.path, new_directory) do
       {:ok, new_path} ->
+        old_path = panel.path |> Path.basename()
+        content = PhoenixCommander.Dir.ls(new_path)
+        selection = Enum.find_index(content, fn {name, _} -> name == old_path end) || 0
+
         panel
         |> Map.put(:path, new_path)
-        |> Map.put(:selection, 0)
-        |> Map.put(:content, PhoenixCommander.Dir.ls(new_path))
+        |> Map.put(:selection, selection)
+        |> Map.put(:content, content)
 
       _ ->
         panel
