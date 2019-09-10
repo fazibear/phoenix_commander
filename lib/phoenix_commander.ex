@@ -15,6 +15,7 @@ defmodule PhoenixCommander do
       panel
       |> Map.get(:content)
       |> Enum.at(panel.selection)
+      |> elem(0)
 
     change_directory(commander, panel_name, new_directory)
   end

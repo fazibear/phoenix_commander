@@ -31,14 +31,29 @@ defmodule PhoenixCommanderWeb.FileBrowserLive do
   end
 
   def headers do
-    ~s[        <b class="header">Name</b>               &#x2502;   <b class="header">Size</b>   ]
+    ~s[             <b class="header">Name</b>           &#x2502;   <b class="header">Size</b>  ]
   end
 
+  @name_length 28
   def line(no, panel, row, active) do
-    name = panel.content |> Enum.at(panel.offset + row, "") |> String.slice(0, 38)
-    entry = name <> String.duplicate(" ", 38 - String.length(name))
+    dir_entry = panel.content |> Enum.at(panel.offset + row, {"", :empty})
+    cd = dir_entry |> elem(0)
+    name = cd |> String.slice(0, @name_length)
+
+    size =
+      case dir_entry |> elem(1) do
+        :empty -> ""
+        :up -> ">UP--DIR<"
+        :dir -> ">SUB-DIR<"
+        val -> Number.SI.number_to_si(val, precision: 0)
+      end
+
+    entry =
+      name <>
+        String.duplicate(" ", @name_length - String.length(name)) <>
+        "&#x2502;" <> String.pad_leading(size, 9)
+
     class = if no == active && panel.offset + row == panel.selection, do: "selected", else: ""
-    cd = panel.content |> Enum.at(panel.offset + row)
 
     ~s[<b class="#{class}" phx-click="cd" phx-value-panel="#{no}" phx-value-cd="#{cd}">#{entry}</b>]
   end

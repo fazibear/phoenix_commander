@@ -40,6 +40,7 @@ defmodule PhoenixCommander.MixProject do
       {:jason, "~> 1.0"},
       {:plug_cowboy, "~> 2.0"},
       {:phoenix_live_view, "~> 0.1.0"},
+      {:number, "~> 1.0.0"},
       {:webengine_kiosk, "~> 0.2"}
     ]
   end
