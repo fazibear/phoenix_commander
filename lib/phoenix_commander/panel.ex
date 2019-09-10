@@ -12,9 +12,16 @@ defmodule PhoenixCommander.Panel do
         content = PhoenixCommander.Dir.ls(new_path)
         selection = Enum.find_index(content, fn {name, _} -> name == old_path end) || 0
 
+        offset =
+          case selection do
+            val when val in 0..20 -> 0
+            _ -> selection
+          end
+
         panel
         |> Map.put(:path, new_path)
         |> Map.put(:selection, selection)
+        |> Map.put(:offset, offset)
         |> Map.put(:content, content)
 
       _ ->
