@@ -70,3 +70,8 @@ pre {
   background-color: var(--c3);
   color: var(--c1);
 }
+
+.selected {
+  background-color: var(--c3);
+  color: var(--c1);
+}

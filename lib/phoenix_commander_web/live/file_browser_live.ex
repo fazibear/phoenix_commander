@@ -10,9 +10,8 @@ defmodule PhoenixCommanderWeb.FileBrowserLive do
   def render(assigns) do
     ~L"""
     <pre><%= @panel_1.path |> top_line() |> raw() %><%= @panel_2.path |> top_line() |> raw() %></pre>
-    <pre><b phx-click="cd" phx-value-panel="1" phx-value-cd=".."><%= ".." |> line() |> raw() %></b><b phx-click="cd" phx-value-panel="2" phx-value-cd=".."><%= ".." |> line() |> raw() %></b></pre>
     <%= for n <- 0..22 do %>
-      <pre><b phx-click="cd" phx-value-panel="1" phx-value-cd="<%= @panel_1.content |> Enum.at(n) %>"><%= @panel_1.content |> Enum.at(n) |> line() |> raw() %></b><b phx-click="cd" phx-value-panel="2" phx-value-cd="<%= @panel_2.content |> Enum.at(n) %>"><%= @panel_2.content |> Enum.at(n) |> line() |> raw() %></b></pre>
+      <pre>&#x2551;<%= raw line(1, @panel_1, n) %>&#x2551;&#x2551;<%= raw line(2, @panel_2, n) %>&#x2551;</pre>
     <% end %>
     <pre><%= bottom_line() |> raw() %><%= bottom_line() |> raw() %></pre>
     """
@@ -26,10 +25,14 @@ defmodule PhoenixCommanderWeb.FileBrowserLive do
     }&#x2557;]
   end
 
-  def line(content) do
-    content = String.slice(content, 0, 38)
+  def line(no, panel, n) do
+    name = panel.content |> Enum.at(panel.offset + n) || ""
+    entry = String.slice(name, 0, 38) <> String.duplicate(" ", 38 - String.length(name))
 
-    ~s[&#x2551;<b class="file">#{content}</b>#{String.duplicate(" ", 38 - String.length(content))}&#x2551;]
+    class = if panel.offset + n == panel.selection, do: "selected", else: ""
+    cd = panel.content |> Enum.at(panel.offset + n)
+
+    ~s[<b class="#{class}" phx-click="cd" phx-value-panel="#{no}" phx-value-cd="#{cd}">#{entry}</b>]
   end
 
   def bottom_line() do
@@ -39,7 +42,9 @@ defmodule PhoenixCommanderWeb.FileBrowserLive do
   def mount(_session, socket) do
     panel =
       %{
-        path: Path.expand(".")
+        path: Path.expand("."),
+        offset: 0,
+        selection: 2
       }
       |> ls()
 
@@ -93,7 +98,7 @@ defmodule PhoenixCommanderWeb.FileBrowserLive do
         {dirs, files} = Enum.split_with(entries, &File.dir?(path(panel.path, &1)))
 
         panel
-        |> Map.put(:content, Enum.sort(dirs) ++ Enum.sort(files))
+        |> Map.put(:content, [".."] ++ Enum.sort(dirs) ++ Enum.sort(files))
 
       _ ->
         panel
