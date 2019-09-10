@@ -10,9 +10,9 @@ defmodule PhoenixCommanderWeb.FileBrowserLive do
   def render(assigns) do
     ~L"""
     <pre><%= @panel_1.path |> top_line() |> raw() %><%= @panel_2.path |> top_line() |> raw() %></pre>
-    <pre><b phx-click="cd" phx-value="<%= encode(%{panel: 1, cd: ".."}) %>"><%= ".." |> line() |> raw() %></b><b phx-click="cd" phx-value="<%= encode(%{panel: 2, cd: ".."}) %>"><%= ".." |> line() |> raw() %></b></pre>
+    <pre><b phx-click="cd" phx-value-panel="1" phx-value-cd=".."><%= ".." |> line() |> raw() %></b><b phx-click="cd" phx-value-panel="2" phx-value-cd=".."><%= ".." |> line() |> raw() %></b></pre>
     <%= for n <- 0..22 do %>
-      <pre><b phx-click="cd" phx-value="<%= encode(%{panel: 1, cd: @panel_1.content |> Enum.at(n)}) %>"><%= @panel_1.content |> Enum.at(n) |> line() |> raw() %></b><b phx-click="cd" phx-value="<%= encode(%{panel: 2, cd: @panel_2.content |> Enum.at(n)}) %>"><%= @panel_2.content |> Enum.at(n)  |> line() |> raw() %></b></pre>
+      <pre><b phx-click="cd" phx-value-panel="1" phx-value-cd="<%= @panel_1.content |> Enum.at(n) %>"><%= @panel_1.content |> Enum.at(n) |> line() |> raw() %></b><b phx-click="cd" phx-value-panel="2" phx-value-cd="<%= @panel_2.content |> Enum.at(n) %>"><%= @panel_2.content |> Enum.at(n) |> line() |> raw() %></b></pre>
     <% end %>
     <pre><%= bottom_line() |> raw() %><%= bottom_line() |> raw() %></pre>
     """
@@ -51,14 +51,13 @@ defmodule PhoenixCommanderWeb.FileBrowserLive do
     {:ok, socket}
   end
 
-  def handle_event("quit", _param, _socket) do
+  def handle_event("quit", _param, socket) do
     System.halt(0)
+    
+    {:noreply, socket}
   end
 
-  def handle_event("cd", data, socket) do
-    socket =
-      case decode(data) do
-        %{panel: 1, cd: cd} ->
+  def handle_event("cd", %{"panel" => "1", "cd" => cd}, socket) do
           panel_1 = socket.assigns.panel_1
 
           panel_1 =
@@ -66,11 +65,14 @@ defmodule PhoenixCommanderWeb.FileBrowserLive do
             |> Map.put(:path, path(panel_1.path, cd))
             |> ls()
 
-          socket =
-            socket
+            socket = socket
             |> assign(panel_1: panel_1)
 
-        %{panel: 2, cd: cd} ->
+
+    {:noreply, socket}
+  end
+  
+  def handle_event("cd", %{"panel" => "2", "cd" => cd}, socket) do
           panel_2 = socket.assigns.panel_2
 
           panel_2 =
@@ -78,28 +80,11 @@ defmodule PhoenixCommanderWeb.FileBrowserLive do
             |> Map.put(:path, path(panel_2.path, cd))
             |> ls()
 
-          socket =
-            socket
+            socket = socket
             |> assign(panel_2: panel_2)
 
-        _ ->
-          socket
-      end
 
     {:noreply, socket}
-  end
-
-  defp encode(value) do
-    value
-    |> :erlang.term_to_binary()
-    |> Base.encode64()
-  end
-
-  defp decode(value) do
-    value
-    |> Base.decode64()
-    |> elem(1)
-    |> :erlang.binary_to_term()
   end
 
   defp ls(panel) do
