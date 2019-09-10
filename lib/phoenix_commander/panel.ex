@@ -2,7 +2,8 @@ defmodule PhoenixCommander.Panel do
   defstruct path: Path.expand("."),
             offset: 0,
             selection: 0,
-            content: PhoenixCommander.Dir.ls(Path.expand("."))
+            content: PhoenixCommander.Dir.ls(Path.expand(".")),
+            content_length: 22
 
   def change_directory(panel, new_directory) do
     new_path = PhoenixCommander.Dir.path(panel.path, new_directory)
@@ -20,10 +21,10 @@ defmodule PhoenixCommander.Panel do
     selection = if selection < 0, do: 0, else: selection
 
     offset =
-      unless selection >= offset && selection <= offset + 22 do
+      unless selection >= offset && selection <= offset + panel.content_length do
         offset = offset - 1
         offset = if offset < 0, do: 0, else: offset
-        if offset > length - 22, do: length - 22, else: offset
+        if offset > length - panel.content_length, do: length - panel.content_length, else: offset
       else
         offset
       end
@@ -40,10 +41,10 @@ defmodule PhoenixCommander.Panel do
     selection = if selection > length - 1, do: length - 1, else: selection
 
     offset =
-      unless selection >= offset && selection <= offset + 22 do
+      unless selection >= offset && selection <= offset + panel.content_length do
         offset = offset + 1
         offset = if offset < 0, do: 0, else: offset
-        if offset > length - 22, do: length - 22, else: offset
+        if offset > length - panel.content_length, do: length - panel.content_length, else: offset
       else
         offset
       end
