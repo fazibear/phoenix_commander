@@ -10,11 +10,12 @@ defmodule PhoenixCommanderWeb.FileBrowserLive do
   def render(assigns) do
     ~L"""
     <div phx-keydown="key" phx-target="window" class="phoenix_commander">
-      <pre><%= @commander.panel_1.path |> top_line(@commander.active_panel == :panel_1) |> raw() %><%= @commander.panel_2.path |> top_line(@commander.active_panel == :panel_2) |> raw() %></pre>
-      <%= for row <- 0..22 do %>
+      <pre>&#x2554;&#x2550;<%= @commander.panel_1.path |> top_line(@commander.active_panel == :panel_1) |> raw() %>&#x2550;&#x2557;&#x2554;&#x2550;<%= @commander.panel_2.path |> top_line(@commander.active_panel == :panel_2) |> raw() %>&#x2550;&#x2557;</pre>
+      <pre>&#x2551;<%= headers() |> raw %><% headers() |> raw() %>&#x2551;&#x2551;<%= headers() |> raw %><% headers() |> raw() %>&#x2551;</pre>
+      <%= for row <- 0..21 do %>
         <pre>&#x2551;<%= raw line(:panel_1, @commander.panel_1, row, @commander.active_panel) %>&#x2551;&#x2551;<%= raw line(:panel_2, @commander.panel_2, row, @commander.active_panel) %>&#x2551;</pre>
       <% end %>
-      <pre><%= bottom_line() |> raw() %><%= bottom_line() |> raw() %></pre>
+      <pre>&#x255A;<%= bottom_line() |> raw() %>&#x255D;&#x255A;<%= bottom_line() |> raw() %>&#x255D;</pre>
     </div>
     """
   end
@@ -24,9 +25,13 @@ defmodule PhoenixCommanderWeb.FileBrowserLive do
     class = "path"
     class = if active, do: class <> " active", else: class
 
-    ~s[&#x2554;&#x2550;<b class="#{class}"> #{title} </b>&#x2550;#{
+    ~s[<b class="#{class}"> #{title} </b>#{
       String.duplicate("&#x2550;", 34 - String.length(title))
-    }&#x2557;]
+    }]
+  end
+
+  def headers do
+    ~s[        <b class="header">Name</b>               &#x2502;   <b class="header">Size</b>   ]
   end
 
   def line(no, panel, row, active) do
@@ -39,7 +44,7 @@ defmodule PhoenixCommanderWeb.FileBrowserLive do
   end
 
   def bottom_line() do
-    ~s[&#x255A;#{String.duplicate("&#x2550;", 38)}&#x255D;]
+    String.duplicate("&#x2550;", 38)
   end
 
   def mount(_session, socket) do

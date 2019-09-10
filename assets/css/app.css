@@ -80,3 +80,7 @@ pre {
   background-color: var(--c3);
   color: var(--c1);
 }
+
+.header {
+  color: var(--cE)
+}
