@@ -22,8 +22,6 @@ defmodule PhoenixCommander.Dir do
   end
 
   defp files(file) do
-    IO.inspect(file)
-
     case File.stat(file) do
       {:ok, opts} -> {file, opts.size}
       _ -> {file, 0}

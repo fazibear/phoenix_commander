@@ -15,6 +15,8 @@ defmodule PhoenixCommanderWeb.FileBrowserLive do
       <%= for row <- 0..21 do %>
         <pre>&#x2551;<%= raw line(:panel_1, @commander.panel_1, row, @commander.active_panel) %>&#x2551;&#x2551;<%= raw line(:panel_2, @commander.panel_2, row, @commander.active_panel) %>&#x2551;</pre>
       <% end %>
+      <pre>&#x2551;<%= separator() |> raw %><% headers() |> raw() %>&#x2551;&#x2551;<%= headers() |> raw %><% separator() |> raw() %>&#x2551;</pre>
+      <pre>&#x2551;<%= headers() |> raw %><% headers() |> raw() %>&#x2551;&#x2551;<%= headers() |> raw %><% headers() |> raw() %>&#x2551;</pre>
       <pre>&#x255A;<%= bottom_line() |> raw() %>&#x255D;&#x255A;<%= bottom_line() |> raw() %>&#x255D;</pre>
     </div>
     """
@@ -56,6 +58,10 @@ defmodule PhoenixCommanderWeb.FileBrowserLive do
     class = if no == active && panel.offset + row == panel.selection, do: "selected", else: ""
 
     ~s[<b class="#{class}" phx-click="cd" phx-value-panel="#{no}" phx-value-cd="#{cd}">#{entry}</b>]
+  end
+
+  def separator() do
+    String.duplicate("&#x2550;", 38)
   end
 
   def bottom_line() do
