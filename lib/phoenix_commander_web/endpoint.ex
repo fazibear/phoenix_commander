@@ -1,11 +1,11 @@
-defmodule LiveViewDemoWeb.Endpoint do
-  use Phoenix.Endpoint, otp_app: :live_view_demo
-
-  socket "/socket", LiveViewDemoWeb.UserSocket,
-    websocket: true,
-    longpoll: false
+defmodule PhoenixCommanderWeb.Endpoint do
+  use Phoenix.Endpoint, otp_app: :phoenix_commander
 
   socket "/live", Phoenix.LiveView.Socket
+
+  socket "/socket", PhoenixCommanderWeb.UserSocket,
+    websocket: true,
+    longpoll: false
 
   # Serve at "/" the static files from "priv/static" directory.
   #
@@ -13,7 +13,7 @@ defmodule LiveViewDemoWeb.Endpoint do
   # when deploying your static files in production.
   plug Plug.Static,
     at: "/",
-    from: :live_view_demo,
+    from: :phoenix_commander,
     gzip: false,
     only: ~w(css fonts images js favicon.ico robots.txt)
 
@@ -41,8 +41,8 @@ defmodule LiveViewDemoWeb.Endpoint do
   # Set :encryption_salt if you would also like to encrypt it.
   plug Plug.Session,
     store: :cookie,
-    key: "_live_view_demo_key",
-    signing_salt: "pIQrFsE9"
+    key: "_phoenix_commander_key",
+    signing_salt: "vhrfzXjG"
 
-  plug LiveViewDemoWeb.Router
+  plug PhoenixCommanderWeb.Router
 end

@@ -1,11 +1,11 @@
-defmodule LiveViewDemoWeb.Router do
-  use LiveViewDemoWeb, :router
+defmodule PhoenixCommanderWeb.Router do
+  use PhoenixCommanderWeb, :router
 
   pipeline :browser do
     plug :accepts, ["html"]
     plug :fetch_session
-    plug Phoenix.LiveView.Flash
     plug :fetch_flash
+    plug Phoenix.LiveView.Flash
     plug :protect_from_forgery
     plug :put_secure_browser_headers
   end
@@ -14,15 +14,14 @@ defmodule LiveViewDemoWeb.Router do
     plug :accepts, ["json"]
   end
 
-  scope "/", LiveViewDemoWeb do
+  scope "/", PhoenixCommanderWeb do
     pipe_through :browser
 
-    get "/", PageController, :index
-    live "/clock", ClockLive
+    live "/", FileBrowserLive
   end
 
   # Other scopes may use custom stacks.
-  # scope "/api", LiveViewDemoWeb do
+  # scope "/api", PhoenixCommanderWeb do
   #   pipe_through :api
   # end
 end

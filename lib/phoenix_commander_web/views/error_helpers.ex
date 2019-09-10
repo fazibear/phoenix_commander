@@ -1,4 +1,4 @@
-defmodule LiveViewDemoWeb.ErrorHelpers do
+defmodule PhoenixCommanderWeb.ErrorHelpers do
   @moduledoc """
   Conveniences for translating and building error messages.
   """
@@ -36,9 +36,9 @@ defmodule LiveViewDemoWeb.ErrorHelpers do
     # should be written to the errors.po file. The :count option is
     # set by Ecto and indicates we should also apply plural rules.
     if count = opts[:count] do
-      Gettext.dngettext(LiveViewDemoWeb.Gettext, "errors", msg, msg, count, opts)
+      Gettext.dngettext(PhoenixCommanderWeb.Gettext, "errors", msg, msg, count, opts)
     else
-      Gettext.dgettext(LiveViewDemoWeb.Gettext, "errors", msg, opts)
+      Gettext.dgettext(PhoenixCommanderWeb.Gettext, "errors", msg, opts)
     end
   end
 end

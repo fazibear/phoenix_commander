@@ -20,7 +20,7 @@ erl_crash.dump
 *.ez
 
 # Ignore package tarball (built via "mix hex.build").
-live_view_demo-*.tar
+phoenix_commander-*.tar
 
 # If NPM crashes, it generates a log, let's ignore it too.
 npm-debug.log
@@ -32,3 +32,5 @@ npm-debug.log
 # we ignore priv/static. You may want to comment
 # this depending on your deployment strategy.
 /priv/static/
+
+.elixir_ls

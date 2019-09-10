@@ -1,4 +1,72 @@
 /* This file is for your main application css. */
 
-@import "./phoenix.css";
 @import "../../deps/phoenix_live_view/assets/css/live_view.css";
+
+@font-face {
+  font-family: 'IBMVGA8';
+  src: url(/fonts/ibm_vga8.eot);
+  src: url(/fonts/ibm_vga8.eot?#iefix) format('embedded-opentype'),
+       url(/fonts/ibm_vga8.woff2) format('woff2'),
+       url(/fonts/ibm_vga8.woff) format('woff'),
+       url(/fonts/ibm_vga8.ttf) format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+:root {
+  --c0: #000000;
+  --c1: #0000AA;
+  --c2: #00AA00;
+  --c3: #00AAAA;
+  --c4: #AA0000;
+  --c5: #AA00AA;
+  --c6: #AA5500;
+  --c7: #AAAAAA;
+  --c8: #555555;
+  --c9: #5555FF;
+  --cA: #55FF55;
+  --cB: #55FFFF;
+  --cC: #FF5555;
+  --cD: #FF55FF;
+  --cE: #FFFF55;
+  --cF: #FFFFFF;
+}
+
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed,
+figure, figcaption, footer, header, hgroup,
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	font-size: 100%;
+	font: inherit;
+	vertical-align: baseline;
+}
+
+body, pre, code {
+  font-family: "IBMVGA8", monospace;
+  line-height: 0.99;
+  font-size: 25px;
+  background-color: var(--c1);
+  color: var(--cB);
+}
+
+pre {
+  margin: 0 auto;
+  display: table;
+}
+
+.path {
+  background-color: var(--c3);
+  color: var(--c1);
+}
