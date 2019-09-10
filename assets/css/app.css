@@ -67,6 +67,11 @@ pre {
 }
 
 .path {
+  background-color: var(--c1);
+  color: var(--cB);
+}
+
+.path.active {
   background-color: var(--c3);
   color: var(--c1);
 }

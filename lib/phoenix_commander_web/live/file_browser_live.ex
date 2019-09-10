@@ -10,7 +10,7 @@ defmodule PhoenixCommanderWeb.FileBrowserLive do
   def render(assigns) do
     ~L"""
     <div phx-keydown="key" phx-target="window" class="phoenix_commander">
-      <pre><%= @commander.panel_1.path |> top_line() |> raw() %><%= @commander.panel_2.path |> top_line() |> raw() %></pre>
+      <pre><%= @commander.panel_1.path |> top_line(@commander.active_panel == :panel_1) |> raw() %><%= @commander.panel_2.path |> top_line(@commander.active_panel == :panel_2) |> raw() %></pre>
       <%= for row <- 0..22 do %>
         <pre>&#x2551;<%= raw line(:panel_1, @commander.panel_1, row, @commander.active_panel) %>&#x2551;&#x2551;<%= raw line(:panel_2, @commander.panel_2, row, @commander.active_panel) %>&#x2551;</pre>
       <% end %>
@@ -19,10 +19,12 @@ defmodule PhoenixCommanderWeb.FileBrowserLive do
     """
   end
 
-  def top_line(title) do
+  def top_line(title, active) do
     {_, title} = String.split_at(title, -34)
+    class = "path"
+    class = if active, do: class <> " active", else: class
 
-    ~s[&#x2554;&#x2550;<b class="path"> #{title} </b>&#x2550;#{
+    ~s[&#x2554;&#x2550;<b class="#{class}"> #{title} </b>&#x2550;#{
       String.duplicate("&#x2550;", 34 - String.length(title))
     }&#x2557;]
   end
