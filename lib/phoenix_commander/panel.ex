@@ -6,12 +6,16 @@ defmodule PhoenixCommander.Panel do
             content_length: 19
 
   def change_directory(panel, new_directory) do
-    new_path = PhoenixCommander.Dir.path(panel.path, new_directory)
+    case PhoenixCommander.Dir.new_path(panel.path, new_directory) do
+      {:ok, new_path} ->
+        panel
+        |> Map.put(:path, new_path)
+        |> Map.put(:selection, 0)
+        |> Map.put(:content, PhoenixCommander.Dir.ls(new_path))
 
-    panel
-    |> Map.put(:path, new_path)
-    |> Map.put(:selection, 0)
-    |> Map.put(:content, PhoenixCommander.Dir.ls(new_path))
+      _ ->
+        panel
+    end
   end
 
   def selection_up(panel) do

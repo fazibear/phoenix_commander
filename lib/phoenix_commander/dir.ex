@@ -1,4 +1,14 @@
 defmodule PhoenixCommander.Dir do
+  def new_path(path, new_directory) do
+    new = path(path, new_directory)
+
+    if File.dir?(new) do
+      {:ok, new}
+    else
+      :error
+    end
+  end
+
   def path(path, new_directory) do
     Path.expand(path <> "/" <> new_directory)
   end
