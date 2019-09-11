@@ -40,7 +40,7 @@ defmodule PhoenixCommanderWeb.FileBrowserLive do
   def line(no, panel, row, active) do
     dir_entry = panel.content |> Enum.at(panel.offset + row, {"", :empty})
     cd = dir_entry |> elem(0)
-    name = cd |> String.slice(0, @name_length)
+    name = cd |> String.trim() |> String.slice(0, @name_length)
 
     entry =
       name <>
@@ -61,7 +61,7 @@ defmodule PhoenixCommanderWeb.FileBrowserLive do
   def status(panel) do
     {name, size} = Enum.at(panel.content, panel.selection)
 
-    name = name |> String.slice(0, @name_length)
+    name = name |> String.trim() |> String.slice(0, @name_length)
 
     name <>
       String.duplicate(" ", @name_length - String.length(name)) <>
