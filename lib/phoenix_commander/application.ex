@@ -9,10 +9,10 @@ defmodule PhoenixCommander.Application do
     # List all child processes to be supervised
     children = [
       # Start the endpoint when the application starts
-      PhoenixCommanderWeb.Endpoint
+      PhoenixCommanderWeb.Endpoint,
+      PhoenixCommander.Browser
       # Starts a worker by calling: PhoenixCommander.Worker.start_link(arg)
       # {PhoenixCommander.Worker, arg},
-      #    {WebengineKiosk, {[homepage: "http://localhost:41234", fullscreen: false], name: MyKiosk}}
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html

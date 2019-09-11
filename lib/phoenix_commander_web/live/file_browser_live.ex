@@ -76,12 +76,6 @@ defmodule PhoenixCommanderWeb.FileBrowserLive do
     {:ok, put_commander(PhoenixCommander.init(), socket)}
   end
 
-  def handle_event("quit", _param, socket) do
-    System.halt(0)
-
-    {:noreply, socket}
-  end
-
   def handle_event("cd", %{"panel" => panel, "cd" => cd}, socket) do
     socket =
       socket
