@@ -41,7 +41,11 @@ defmodule PhoenixCommander.MixProject do
       {:plug_cowboy, "~> 2.0"},
       {:phoenix_live_view, "~> 0.1.0"},
       {:number, "~> 1.0.0"},
-      {:webengine_kiosk, "~> 0.2", compile: if(System.get_env("DESKTOP"), do: true, else: false)}
+      {:webengine_kiosk, "~> 0.2", compile: desktop?(), app: desktop?()}
     ]
+  end
+
+  defp desktop? do
+    if System.get_env("DESKTOP"), do: true, else: false
   end
 end
