@@ -12,7 +12,7 @@ secret_key_base =
     """
 
 config :phoenix_commander, PhoenixCommanderWeb.Endpoint,
-  http: [:inet6, port: String.to_integer(System.get_env("PORT") || "4000")],
+  http: [:inet6, port: String.to_integer(System.get_env("PORT") || "41234")],
   secret_key_base: secret_key_base
 
 # ## Using releases (Elixir v1.9+)

@@ -7,7 +7,6 @@ use Mix.Config
 # watchers to your application. For example, we use it
 # with webpack to recompile .js and .css sources.
 config :phoenix_commander, PhoenixCommanderWeb.Endpoint,
-  http: [port: 41234],
   debug_errors: true,
   code_reloader: true,
   check_origin: false,

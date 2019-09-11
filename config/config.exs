@@ -9,7 +9,7 @@ use Mix.Config
 
 # Configures the endpoint
 config :phoenix_commander, PhoenixCommanderWeb.Endpoint,
-  url: [host: "localhost"],
+  url: [host: "localhost", port: 41234],
   secret_key_base: "gVSN/o04YQwkADABpKfReuAltCPQnfbcsl7ThKkPzc1Q7T8eYOSn6tZcbYLZ1Tf/",
   render_errors: [view: PhoenixCommanderWeb.ErrorView, accepts: ~w(html json)],
   pubsub: [name: PhoenixCommander.PubSub, adapter: Phoenix.PubSub.PG2],
