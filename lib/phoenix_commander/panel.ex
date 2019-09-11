@@ -16,7 +16,7 @@ defmodule PhoenixCommander.Panel do
           if selection in 0..panel.content_length do
             0
           else
-            selection
+            selection - panel.content_length
           end
 
         panel
