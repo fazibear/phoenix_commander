@@ -14,7 +14,7 @@ defmodule PhoenixCommander.Panel do
 
         offset =
           case selection do
-            val when val in 0..20 -> 0
+            val when val in 0..panel.content_length -> 0
             _ -> selection
           end
 
