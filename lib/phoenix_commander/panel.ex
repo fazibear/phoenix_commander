@@ -13,9 +13,10 @@ defmodule PhoenixCommander.Panel do
         selection = Enum.find_index(content, fn {name, _} -> name == old_path end) || 0
 
         offset =
-          case selection do
-            val when val in 0..panel.content_length -> 0
-            _ -> selection
+          if selection in 0..panel.content_length do
+            0
+          else
+            selection
           end
 
         panel
