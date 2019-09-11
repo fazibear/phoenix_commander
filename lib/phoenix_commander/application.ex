@@ -7,7 +7,7 @@ defmodule PhoenixCommander.Application do
 
   def start(_type, _args) do
     # List all child processes to be supervised
-    
+
     # See https://hexdocs.pm/elixir/Supervisor.html
     # for other strategies and supported options
     opts = [strategy: :one_for_one, name: PhoenixCommander.Supervisor]

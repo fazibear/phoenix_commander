@@ -26,7 +26,7 @@ config :logger, :console,
 config :phoenix, :json_library, Jason
 
 config :phoenix_commander,
-  run_browser: if System.get_env("DESKTOP"), do: true, else: false
+  run_browser: if(System.get_env("DESKTOP"), do: true, else: false)
 
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.

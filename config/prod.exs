@@ -12,7 +12,7 @@ use Mix.Config
 config :phoenix_commander, PhoenixCommanderWeb.Endpoint,
   cache_static_manifest: "priv/static/cache_manifest.json",
   server: true
-  
+
 unless System.get_env("DESKTOP") do
   config :phoenix_commander, PhoenixCommanderWeb.Endpoint,
     url: [host: System.get_env("APP_NAME") <> ".gigalixirapp.com", port: 443]

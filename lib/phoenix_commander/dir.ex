@@ -18,9 +18,9 @@ defmodule PhoenixCommander.Dir do
       {:ok, entries} ->
         {dirs, files} = Enum.split_with(entries, &File.dir?(path(path, &1)))
 
-        ([{"..", :up}] ++
-           (dirs |> Enum.sort() |> Enum.map(&dirs/1)) ++
-           (files |> Enum.sort() |> Enum.map(&files(&1, path))))
+        [{"..", :up}] ++
+          (dirs |> Enum.sort() |> Enum.map(&dirs/1)) ++
+          (files |> Enum.sort() |> Enum.map(&files(&1, path)))
 
       _ ->
         [".."]

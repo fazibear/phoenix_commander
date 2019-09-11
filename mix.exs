@@ -9,7 +9,7 @@ defmodule PhoenixCommander.MixProject do
       elixirc_paths: elixirc_paths(Mix.env()),
       compilers: [:phoenix] ++ Mix.compilers(),
       start_permanent: Mix.env() == :prod,
-      deps: deps()
+      deps: deps() ++ desktop_deps()
     ]
   end
 
@@ -40,12 +40,15 @@ defmodule PhoenixCommander.MixProject do
       {:jason, "~> 1.0"},
       {:plug_cowboy, "~> 2.0"},
       {:phoenix_live_view, "~> 0.1.0"},
-      {:number, "~> 1.0.0"},
-      {:webengine_kiosk, "~> 0.2", app: desktop?()}
+      {:number, "~> 1.0.0"}
     ]
   end
 
-  defp desktop? do
-    if System.get_env("DESKTOP"), do: :webengine_kiosk, else: false
+  defp desktop_deps do
+    if System.get_env("DESKTOP") do
+      [{:webengine_kiosk, "~> 0.2"}]
+    else
+      []
+    end
   end
 end
